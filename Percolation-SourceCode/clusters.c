@@ -1,8 +1,8 @@
 
 /*
-Esta función, que en realidad es un procedimiento porque no devuelve ningún valor, 
-imprime en pantalla la masa (M) del cluster (C) de la forma Cl(C)--M:(M). También imprime 
-cuántos clusters de masa M hay en pantalla de la forma M:(M)--#Cantidad.
+Este procedimiento imprime en pantalla la masa (M) del cluster (C) de 
+la forma Cl(C)--M:(M). También imprime cuántos clusters de masa M hay en 
+la red de la forma M:(M)--#Cantidad.
 */
 
 void clusters (int *red, int dim)
