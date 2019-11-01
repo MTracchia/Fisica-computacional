@@ -1,22 +1,16 @@
-//#include <stdio.h>
 
 int imprimir (int dim, int *red)
 {
-
 int k;
 int j;
-
+	
 for(j=0;j<dim;j++)
 	{
-		for(k=0;k<dim;k++)
-		
-			{
-				printf("%5d",*(red+dim*j+k));
-			}
-	
-	printf("\n\n");
-	
+	   for(k=0;k<dim;k++)
+		{
+		   printf("%5d",*(red+dim*j+k));
+		}
+printf("\n\n");
 	}
-
 return 0;
 }
