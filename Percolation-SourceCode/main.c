@@ -1,5 +1,5 @@
 
-//---------------------Archivos de cabecera--------------------
+//---------------------ARCHIVOS DE CABECERA--------------------
 
 #include <stdio.h>
 #include <stdlib.h>
