@@ -1,12 +1,9 @@
 
 //Arreglo de celdas dentro de la celda principal
 void set_box (float *posicion)
-
 {
-//n=(int)cbrt(N) para que no sobren espacios
-int n=(int)cbrt(N), i=0;
+int n=(int)cbrt(N), i=0; //n=(int)cbrt(N) para que no sobren espacios
 float dl=(float)L/cbrt(N);    
-
 for (int x=0;x<n;x++)
 {	
 	for (int y=0;y<n;y++)		
@@ -20,5 +17,4 @@ for (int x=0;x<n;x++)
 		    }
 	    }  
 }
-
 }
