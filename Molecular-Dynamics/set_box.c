@@ -1,4 +1,3 @@
-
 //Arreglo de celdas dentro de la celda principal
 void set_box (float *posicion)
 {
