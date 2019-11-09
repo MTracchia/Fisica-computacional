@@ -10,10 +10,10 @@ for (int x=0;x<n;x++)
 	   {	
 		for (int z=0;z<n;z++)
 		    {  
-			 *(posicion + 3*i)=(float)(dl*((float)x+0.5));
-			 *(posicion + 3*i+1)=(float)dl*((float)y+0.5);
-			 *(posicion + 3*i+2)=(float)dl*((float)z+0.5);
-		     i++;
+			*(posicion + 3*i)=(float)(dl*((float)x+0.5));
+			*(posicion + 3*i+1)=(float)dl*((float)y+0.5);
+			*(posicion + 3*i+2)=(float)dl*((float)z+0.5);
+		     	i++;
 		    }
 	    }  
 }
