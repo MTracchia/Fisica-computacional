@@ -1,8 +1,7 @@
 
 int imprimir (int dim, int *red)
 {
-int k;
-int j;
+int k, j;
 	
 for(j=0;j<dim;j++)
 	{
