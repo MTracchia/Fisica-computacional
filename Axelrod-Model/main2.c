@@ -350,9 +350,9 @@ for (int corr = 0; corr < L*L; corr++)
 {
 	
         s1=*(nodos+corr);
-        while (*(nodos+s1)<0)
+        while (*(hist+s1)<0)
             {
-              s1=-(*(nodos+s1));
+              s1=-(*(hist+s1));
             }
      *(nodos+corr)=s1;
      
