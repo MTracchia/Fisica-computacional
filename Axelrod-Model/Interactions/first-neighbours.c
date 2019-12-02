@@ -10,7 +10,7 @@ int j_up = j - 1;
 int j_down = j + 1;
 /*First neighbours neighbours*/
 int vecNeigh[] = {i_left,i_right,j_up,j_down};
-/*Selection process*/
+/*SELECTION PROCESS*/
 do {
 		random_fn = rand() % 4; 
 	} while ( (vecNeigh[random_fn] <0) || (vecNeigh[random_fn] >=L));
