@@ -12,7 +12,7 @@ int j_down = j + 1;
 /*First neighbours neighbours*/
 int vecNeigh[] = {i_left,i_right,j_up,j_down};
 /*SELECTION PROCESS*/
-/*Random selection of the fist two vecNeigh elements*/
+/*Random selection of the first two vecNeigh elements*/
 do
 {
 	random_fsn1 = rand() % 2;
