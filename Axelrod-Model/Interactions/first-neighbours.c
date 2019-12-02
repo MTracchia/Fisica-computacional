@@ -22,3 +22,4 @@ if (random_fn == 0)
 				else if (random_fn == 2)
 					{firt_neighbour = i*L + random_neighbour;}
 						else if (random_fn == 3){firt_neighbour = i*L + random_neighbour;}
+return first_neighbour;
