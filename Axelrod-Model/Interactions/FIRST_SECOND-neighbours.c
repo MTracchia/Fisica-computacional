@@ -9,7 +9,7 @@ int i_left = i - 1;
 int i_right = i + 1;
 int j_up = j - 1;
 int j_down = j + 1;
-/*First neighbours neighbours*/
+/*First neighbours*/
 int vecNeigh[] = {i_left,i_right,j_up,j_down};
 /*SELECTION PROCESS*/
 /*Random selection of the first two vecNeigh elements*/
