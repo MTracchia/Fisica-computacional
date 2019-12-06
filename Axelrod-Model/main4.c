@@ -30,7 +30,7 @@ int agente_activo, agente_vecino;
 int Q = 2;
 long fragmento, suma = 0, sum_1 = 0;
 double promedio,promedio_norm,sigma;
-int frags [100];
+long frags [100];
 
 
 
@@ -82,16 +82,21 @@ promedio_norm = promedio/(double)(L*L);
 
 for (int l = 0; l < 100; l++)
 			{
-				sum_1 += ((promedio_norm - frags[l])*(promedio_norm - frags[l]));
+				sum_1 += ((promedio - frags[l])*(promedio - frags[l]));
 			}
 
-sigma = sqrt((double)sum_1/(double)100);
+double sigma_norm;
+sigma = (sqrt((double)sum_1/(double)100));
 
-printf("%d       %f       %f\n",Q, promedio_norm,sigma);
+sigma_norm = sigma/(double)(L*L);
+
+
+printf("%d       %f       %f\n",Q, promedio_norm, sigma_norm);
 suma = 0;
 promedio = 0.0;
 sum_1 = 0;
 sigma = 0.0;
+sigma_norm = 0.0;
 }
 
 return 0;
