@@ -20,6 +20,7 @@ int ACTIVE_AGENT (void);
 float HOMOPHILIA (int similarity);
 int FIRST_NEIGHBOURS(int active_agent);
 void INTERACTION (AGENT grid[], int active_agent, int first_neighbour_agent);
+void AGENTS_ID (AGENT grid[]);
 
 int main()
 {
@@ -138,4 +139,34 @@ void INTERACTION (AGENT grid[], int active_agent, int first_neighbour_agent)
 				grid[active_agent].features[random_feature] = grid[first_neighbour_agent].features[random_feature];
 				printf(" similarity:%d,   homophilia:%f\n", similarity, homophilia);
 			} 
+	}
+//*************************************************AGENTS-ID*************************************************
+void AGENTS_ID (AGENT grid[])
+	{
+		int elements[L*L] = {0}, frag_ag = 0, sim = 0, count_k = 0;
+		for (int i = 1; i < L*L; i++)  /*This takes the comparator element*/
+			{
+				count_k = i+1; /*if all the elements compared are different from the index element i increases the value of frag*/
+				for (int k = 0; k < i; k++) /*Here I always move from the beginning to the element compared*/
+					{
+						for (int j = 0; j < F; j++)
+							{
+								if (grid[i].features[j]==grid[k].features[j])
+									{
+										sim++;
+									}
+								}
+						if (sim == F)
+							{
+								elements[i] = elements[k];
+								count_k--;
+							}
+						sim = 0;
+					}			
+				if (count_k == (i + 1))
+					{
+						frag_ag++;
+						elements[i] = frag_ag;
+					}
+			}	
 	}
