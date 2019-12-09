@@ -21,6 +21,7 @@ float HOMOPHILIA (int similarity);
 int FIRST_NEIGHBOURS(int active_agent);
 void INTERACTION (AGENT grid[], int active_agent, int first_neighbour_agent);
 void AGENTS_ID (AGENT grid[]);
+void FRAGMENTS_ID(AGENT grid[]);
 
 int main()
 {
@@ -36,7 +37,7 @@ int main()
 	printf("active_agent:%d, first_neighbour:%d\n",active_agent,first_neighbour_agent);
 
 	printf("\n");
-
+		//ESTE FOR ES PARA IMPRIMIR EL ESTADO FINAL
 		for (int i = 0; i < L*L; i++)
 			{
 				for (int j = 0; j < F; j++)
@@ -48,6 +49,8 @@ int main()
 		}
 		printf("\n");
 
+	FRAGMENTS_ID(grid);
+	AGENTS_ID(grid);
 	return 0;
 }
 
@@ -169,4 +172,203 @@ void AGENTS_ID (AGENT grid[])
 						elements[i] = frag_ag;
 					}
 			}	
+	
+	//PARA IMPRIMIR LOS AGENTES CLASIFICADOS
+	for (int i = 0; i < L; i++)
+		{
+			for (int j = 0; j < L; j++)
+				{	
+					printf("%4d  ", *(elements + L*i + j));
+				}
+	printf("\n\n");
+		}
 	}
+
+//*************************************************FRAGMENTS-ID*************************************************
+void FRAGMENTS_ID(AGENT grid[]) 
+	{
+		int s1 = 0, s2 = 0, frag = 2, nodes[L*L] ,sim = 0, sim1 = 0 ,sim2 = 0 ,min = 0, max = 0, hist[L*L];
+		//Inicilializo con ceros el vector de nodes
+		for (int m = 0; m < L*L; m++)
+			{
+				nodes[m] = 0;
+			}
+		//primer valor de "nodes" es igual frag = 2
+		nodes [0] = frag;
+		//Incilizacion del vector historial
+		for (int i = 0; i < L*L; i++) {*(hist + i) = i;}
+		//Segmento de codigo que agregue etiquetas a la primera fila 
+		for (int j = 1; j < L; j++)
+			{
+				for (int k = 0; k < F; k++)
+					{
+						if (grid[j-1].features[k] == grid[j].features[k])
+							{
+								sim++;
+							}	
+					}
+				if (sim == F)
+					{
+						if (*(hist + nodes[j]) < 0)
+     				   		{
+            					nodes[j] = -(*(hist + nodes[j])); 
+        					}
+						nodes[j] = nodes[j-1];
+					} else {
+								frag++;
+								nodes[j] = frag;
+							}
+				sim = 0 ;
+			}
+
+		//Corrijo etiqueta pero por columna respecto del primer elemento
+		for (int j = 1; j < L; j++)
+			{
+				for (int k = 0; k < F; k++)
+					{
+						if (grid[j*L-L].features[k] == grid[j*L].features[k])
+							{
+								sim++;
+							}	
+					}
+			if (sim == F)
+				{
+					if (*(hist + nodes[j*L]) < 0)
+        				{
+            				nodes[j*L] = -(*(hist + nodes[j*L])); 
+        				}
+			nodes[j*L] = nodes[j*L-L];
+				} else {
+							frag++;
+							nodes[j*L] = frag;
+						}
+		sim = 0 ;
+
+	//Aca comenzaria el proceso de comparacion para agregar etiquetas 
+
+	//Me muevo de izq a der -- las filas estan fijadas por j
+	for (int i = 1; i < L; i++)
+	{
+		//Comparo features
+		for (int iter = 0; iter < F; iter++)
+			{
+				//s2 = *(grid+j+i*dim-dim);  arriba                       
+				//s1 = *(grid+j+i*dim-1);  abajo
+				//los elementos que tomo
+				grid[i+j*L-L].features[iter];	//arriba
+				grid[i+j*L-1].features[iter];  //abajo
+				grid[i+j*L].features[iter]; //Elemento que comparo
+
+			//Comparo componente a componente los tres agentes
+				if (grid[i+j*L].features[iter] == grid[i+j*L-1].features[iter]) //abajo
+					{
+						sim1++;
+					}
+
+				if (grid[i+j*L].features[iter] == grid[i+j*L-L].features[iter]) //arriba
+					{
+						sim2++;
+					}
+		
+			}
+		
+			//Asigno etiqueta al elemento comparador(todavia no es sseguro si es la original)
+			//se analizan los distintos casos
+			if (sim1 == F && sim2 != F)
+				{
+					nodes[i+j*L] = nodes [i+j*L-1];
+				}
+
+			else if (sim1 != F && sim2 == F)
+				{
+					nodes[i+j*L] = nodes [i+j*L-L];
+				}	
+
+			else if (sim1 != F && sim2 != F)
+				{
+					frag++;
+					nodes[i+j*L] = frag;
+				}
+			
+			else if (sim1 == F && sim2 == F)
+				{
+					if (nodes[i+j*L-1] == nodes[i+j*L-L])
+						{
+							nodes[i+j*L] = nodes[i+j*L-1];		
+						} 	
+					else if (nodes[i+j*L-1] < nodes[i+j*L-L])
+					{					
+						if (*(hist + nodes[i+j*L-1])<0)
+    							{
+      								nodes[i+j*L-1] = -(*(hist + nodes[i+j*L-1]));
+   	 							}
+						if (*(hist + nodes[i+j*L-L])<0)
+    							{
+      								nodes[i+j*L] = -(*(hist + nodes[i+j*L]));
+   								}
+
+						min = nodes[i+j*L-1];
+						max = nodes[i+j*L-L];							
+							
+						nodes[i+j*L] = min;
+						*(hist + max) = -min;
+						*(hist + min) = min;
+					}	
+				else if (nodes[i+j*L-1] > nodes[i+j*L-L])
+					{
+							
+							if (*(hist + nodes[i+j*L-1])<0)
+    							{
+      								nodes[i+j*L-1] = -(*(hist + nodes[i+j*L-1]));
+   	 							}
+  
+							if (*(hist + nodes[i+j*L-L])<0)
+    							{
+      								nodes[i+j*L] = -(*(hist + nodes[i+j*L]));
+   								}
+			
+						max = nodes[i+j*L-1];
+						min = nodes[i+j*L-L];							
+							
+						nodes[i+j*L] = min;
+						*(hist + max) = -min;
+						*(hist + min) = min;				
+					}
+				}
+
+		sim1 = 0;
+		sim2 = 0;
+	}
+			}
+
+
+	//PARA CORREGIR ETIQUETA A PARTIR DEL VECTOR HISTORIAL
+	for (int corr = 0; corr < L*L; corr++)
+		{
+	    	s1=*(nodes+corr);
+	        while (*(hist+s1)<0)
+	            {
+	              s1=-(*(hist+s1));
+	            }
+	     	*(nodes+corr)=s1;
+	}
+
+	//PARA IMPRIMIR LOS FRAGMENTOS CLASIFICADOS
+	for (int i = 0; i < L; i++)
+		{
+			for (int j = 0; j < L; j++)
+				{	
+					printf("%4d  ", *(nodes + L*i + j));
+				}
+			printf("\n\n");
+		}
+	printf("\n\n");
+	//PARA IMPRIMIR EL VECTOR HISTORIAL
+	for (int imp = 0; imp < L*L; imp++)
+		{
+			printf("%4d", *(hist + imp));
+		}
+	printf("\n\n");
+
+	}
+
